@@ -7,9 +7,9 @@ namespace password_manager_backend.Models
 {
     public class UserLoginModel
     {
-        public int Id { get; set; }
-        public string userMail { get; set; }
-        public string userPassword { get; set; }
+        public int Id {get;set;}
+        public int UserId { get; set; }
+        public DateTime CreationTime { get; set; }
 
     }
 }

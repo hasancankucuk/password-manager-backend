@@ -75,13 +75,24 @@ namespace password_manager_backend.Controllers
 
         // POST: api/UserInfoModels
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
-        public async Task<ActionResult<UserInfoModel>> PostUserInfoModel(UserInfoModel userInfoModel)
+        [HttpPost("signup")]
+        public async Task<ActionResult<UserInfoModel>> UserSignup(UserInfoModel userInfoModel)
         {
             _context.UserInfoModel.Add(userInfoModel);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetUserInfoModel", new { id = userInfoModel.Id }, userInfoModel);
+        }
+
+        [HttpPost("login")]
+        public async Task<ActionResult> UserLogin(UserInfoModel userInfoModel)
+        {
+            var user = await _context.UserInfoModel.FirstOrDefaultAsync(x => x.userEmail == userInfoModel.userEmail && x.userPassword == userInfoModel.userPassword);
+            if (user == null) {
+                return BadRequest();
+            }
+
+            return Ok(user.Id);
         }
 
         // DELETE: api/UserInfoModels/5
