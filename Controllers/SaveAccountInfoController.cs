@@ -45,7 +45,7 @@ namespace password_manager_backend.Controllers
         // PUT: api/SaveAccountInfo/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutSaveAccountInfoModel(int id, SaveAccountInfoModel saveAccountInfoModel)
+        public async Task<IActionResult> PutSaveAccountInfoModel(int id, [FromBody] SaveAccountInfoModel saveAccountInfoModel)
         {
             if (id != saveAccountInfoModel.Id)
             {
@@ -53,7 +53,6 @@ namespace password_manager_backend.Controllers
             }
 
             _context.Entry(saveAccountInfoModel).State = EntityState.Modified;
-
             try
             {
                 await _context.SaveChangesAsync();

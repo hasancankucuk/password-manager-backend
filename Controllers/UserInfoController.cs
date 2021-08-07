@@ -78,9 +78,13 @@ namespace password_manager_backend.Controllers
         [HttpPost("signup")]
         public async Task<ActionResult<UserInfoModel>> UserSignup(UserInfoModel userInfoModel)
         {
+            var user = await _context.UserInfoModel.FirstOrDefaultAsync(x => x.userEmail == userInfoModel.userEmail);
+            if (user != null) {
+                return BadRequest();
+            }
+
             _context.UserInfoModel.Add(userInfoModel);
             await _context.SaveChangesAsync();
-
             return CreatedAtAction("GetUserInfoModel", new { id = userInfoModel.Id }, userInfoModel);
         }
 
@@ -89,7 +93,7 @@ namespace password_manager_backend.Controllers
         {
             var user = await _context.UserInfoModel.FirstOrDefaultAsync(x => x.userEmail == userInfoModel.userEmail && x.userPassword == userInfoModel.userPassword);
             if (user == null) {
-                return BadRequest();
+                return NotFound();
             }
 
             return Ok(user.Id);
