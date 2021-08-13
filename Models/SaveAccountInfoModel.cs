@@ -11,5 +11,6 @@ namespace password_manager_backend.Models
         public string savedUsername { get; set; }
         public string savedPassword { get; set; }
         public string savedUrl { get; set; }
+        public int UserId { get; set; }
     }
 }
