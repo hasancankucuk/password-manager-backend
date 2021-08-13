@@ -52,7 +52,16 @@ namespace password_manager_backend.Controllers
                 return BadRequest();
             }
 
-            _context.Entry(userInfoModel).State = EntityState.Modified;
+            var user = await _context.UserInfoModel.FirstOrDefaultAsync(x => x.Id == id);
+            if (user == null) {
+                return BadRequest();
+            }
+
+            user.userEmail = userInfoModel.userEmail;
+            user.userName = userInfoModel.userName;
+            if (userInfoModel.userPassword.Trim().Length > 0) {
+                user.userPassword = userInfoModel.userPassword; 
+            }
 
             try
             {
@@ -70,7 +79,7 @@ namespace password_manager_backend.Controllers
                 }
             }
 
-            return NoContent();
+            return Ok();
         }
 
         // POST: api/UserInfoModels
@@ -79,7 +88,8 @@ namespace password_manager_backend.Controllers
         public async Task<ActionResult<UserInfoModel>> UserSignup(UserInfoModel userInfoModel)
         {
             var user = await _context.UserInfoModel.FirstOrDefaultAsync(x => x.userEmail == userInfoModel.userEmail);
-            if (user != null) {
+            if (user != null)
+            {
                 return BadRequest();
             }
 
@@ -92,7 +102,8 @@ namespace password_manager_backend.Controllers
         public async Task<ActionResult> UserLogin(UserInfoModel userInfoModel)
         {
             var user = await _context.UserInfoModel.FirstOrDefaultAsync(x => x.userEmail == userInfoModel.userEmail && x.userPassword == userInfoModel.userPassword);
-            if (user == null) {
+            if (user == null)
+            {
                 return NotFound();
             }
 

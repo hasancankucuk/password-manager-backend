@@ -22,10 +22,10 @@ namespace password_manager_backend.Controllers
         }
 
         // GET: api/SaveAccountInfo
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<SaveAccountInfoModel>>> GetSaveAccountInfoModel()
+        [HttpGet("allAccounts/{userId}")]
+        public async Task<ActionResult<IEnumerable<SaveAccountInfoModel>>> GetSaveAccountInfoModels(int userId)
         {
-            return await _context.SaveAccountInfoModel.ToListAsync();
+            return await _context.SaveAccountInfoModel.Where(x => x.UserInfoModelId == userId).ToListAsync();
         }
 
         // GET: api/SaveAccountInfo/5

@@ -11,6 +11,7 @@ namespace password_manager_backend.Models
         public string savedUsername { get; set; }
         public string savedPassword { get; set; }
         public string savedUrl { get; set; }
-        public int UserId { get; set; }
+        public int UserInfoModelId { get; set; }
+        virtual public UserInfoModel UserInfoModel { get; set; }
     }
 }
