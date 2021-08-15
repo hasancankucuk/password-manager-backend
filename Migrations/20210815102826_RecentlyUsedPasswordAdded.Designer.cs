@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using password_manager_backend.Data;
 
 namespace password_manager_backend.Migrations
 {
     [DbContext(typeof(password_manager_backendContext))]
-    partial class password_manager_backendContextModelSnapshot : ModelSnapshot
+    [Migration("20210815102826_RecentlyUsedPasswordAdded")]
+    partial class RecentlyUsedPasswordAdded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

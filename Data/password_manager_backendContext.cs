@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
-using password_manager_backend.Models;
-
+﻿using Microsoft.EntityFrameworkCore;
 namespace password_manager_backend.Data
 {
     public class password_manager_backendContext : DbContext
@@ -19,6 +13,7 @@ namespace password_manager_backend.Data
         public DbSet<password_manager_backend.Models.UserInfoModel> UserInfoModel { get; set; }
 
         public DbSet<password_manager_backend.Models.SaveAccountInfoModel> SaveAccountInfoModel { get; set; }
+        public DbSet<password_manager_backend.Models.RecentlyUsedPassword> RecentlyUsedPasswords { get; set; }
 
     }
 }

@@ -88,6 +88,28 @@ namespace password_manager_backend.Controllers
             return CreatedAtAction("GetSaveAccountInfoModel", new { id = saveAccountInfoModel.Id }, saveAccountInfoModel);
         }
 
+        [HttpGet("recentlyUsedPasswords/{userId}")]
+        public async Task<ActionResult> GetRecentlyUsedPassword(int userId) {
+            var saveAccountInfoModels = _context.RecentlyUsedPasswords.Where(x => x.UserInfoModelId == userId).Select(x => x.SaveAccountInfoModel);
+            return Ok(saveAccountInfoModels);
+        }
+
+        [HttpPost("recentlyUsedPassword/{accountId}")]
+        public async Task<ActionResult> PostRecentlyUsedPassword(int accountId) {
+            var saveAccountInfoModel = await _context.SaveAccountInfoModel.FirstOrDefaultAsync(x => x.Id == accountId);
+            if(saveAccountInfoModel == null)
+            {
+                return BadRequest();
+            }
+
+            RecentlyUsedPassword recentlyUsedPassword = new RecentlyUsedPassword();
+            recentlyUsedPassword.SaveAccountInfoModelId = saveAccountInfoModel.Id;
+            recentlyUsedPassword.UserInfoModelId = saveAccountInfoModel.UserInfoModelId;
+            _context.RecentlyUsedPasswords.Add(recentlyUsedPassword);
+            await _context.SaveChangesAsync();
+            return Ok();
+        }
+
         // DELETE: api/SaveAccountInfo/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteSaveAccountInfoModel(int id)
@@ -97,7 +119,9 @@ namespace password_manager_backend.Controllers
             {
                 return NotFound();
             }
-
+            var recentlyUsedPassword = await _context.RecentlyUsedPasswords.Where(x => x.SaveAccountInfoModelId == saveAccountInfoModel.Id).ToListAsync();
+            _context.RecentlyUsedPasswords.RemoveRange(recentlyUsedPassword);
+            await _context.SaveChangesAsync();
             _context.SaveAccountInfoModel.Remove(saveAccountInfoModel);
             await _context.SaveChangesAsync();
 

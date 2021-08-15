@@ -101,13 +101,13 @@ namespace password_manager_backend.Controllers
         [HttpPost("login")]
         public async Task<ActionResult> UserLogin(UserInfoModel userInfoModel)
         {
-            var user = await _context.UserInfoModel.FirstOrDefaultAsync(x => x.userEmail == userInfoModel.userEmail && x.userPassword == userInfoModel.userPassword);
+            var user = await _context.UserInfoModel.FirstOrDefaultAsync(x => (x.userEmail == userInfoModel.userEmail || x.userName == userInfoModel.userEmail) && x.userPassword == userInfoModel.userPassword);
             if (user == null)
             {
                 return NotFound();
             }
 
-            return Ok(user.Id);
+            return Ok(user);
         }
 
         // DELETE: api/UserInfoModels/5
