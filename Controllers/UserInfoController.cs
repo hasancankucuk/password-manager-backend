@@ -114,7 +114,7 @@ namespace password_manager_backend.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteUserInfoModel(int id)
         {
-            var userInfoModel = await _context.UserInfoModel.FindAsync(id);
+            var userInfoModel = await _context.UserInfoModel.FirstOrDefaultAsync(x => x.Id == id);
             if (userInfoModel == null)
             {
                 return NotFound();
